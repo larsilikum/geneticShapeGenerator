@@ -25,7 +25,7 @@ function constrain(num, min, max) {
     return Math.min(Math.max(num, min), max)
 }
 
-function nf(input, digits, dig) {
+function nf(input, digits) {
     return String("000" + input).slice(-digits);
 }
 
@@ -43,7 +43,7 @@ class Gene {
     useGene(c) {
         this.code = c;
         this.decode();
-        this.encode();
+        this.encode(false);
     }
 
     changeColor(col) {
@@ -164,8 +164,8 @@ class Gene {
     }
 
     encode(changeView) {
-        let gridX = nf(this.gridAmountX, 2, 0);
-        let gridY = nf(this.gridAmountY, 2, 0);
+        let gridX = nf(this.gridAmountX, 2);
+        let gridY = nf(this.gridAmountY, 2);
 
         let noiseSeed = hex(this.noiseSeed, 2);
         let noiseSize = hex(Math.round(this.noiseSize * 16), 1);
@@ -173,9 +173,9 @@ class Gene {
         let nY = hex(this.noiseY, 2);
 
         let integration = hex(this.integration - 8, 1);
-        let sVGM = nf(this.shapeVectorGenerationMode, 1, 0);
+        let sVGM = nf(this.shapeVectorGenerationMode, 1);
 
-        let roundM = nf(this.roundMode, 1, 0);
+        let roundM = nf(this.roundMode, 1);
         let roundness = hex(Math.round(this.roundness * 16), 1);
 
         let shapeSeed = hex(this.shapeSeed, 2);
