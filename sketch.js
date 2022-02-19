@@ -310,7 +310,7 @@ function sketch(p) {
         p.translate(p.gene.noiseX, p.gene.noiseY);
 
 
-        p.background(200);
+        p.background(200, 0);
         p.randomSeed(p.gene.shapeSeed);
 
         if (drawGridB) p.drawGrid();
