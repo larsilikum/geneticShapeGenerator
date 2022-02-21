@@ -149,6 +149,10 @@ function createLink() {
     let url = new URL(url_string);
     url.searchParams.set('gene', pSketch.gene.code)
     navigator.clipboard.writeText(url);
+    alertLink.classList.add('active')
+    setTimeout(() => {
+        alertLink.classList.remove('active')
+    }, 2000)
 }
 
 function hideOnClickOutside(element) {

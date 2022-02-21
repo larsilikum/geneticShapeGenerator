@@ -38,6 +38,22 @@ main {
     grid-template-columns: 75vw 1fr;
 }
 
+#alert-link {
+    position: fixed;
+    left:0;
+    bottom: 0;
+    font-size: 20px;
+    width: 100vw;
+    padding:0.2em 0 0.2em 1em;
+    background-color: white;
+    border-top: 1px solid black;
+    display: none;
+}
+
+#alert-link.active {
+    display: block;
+}
+
 #gene {
     font-weight: 500;
     font-size: 58px;

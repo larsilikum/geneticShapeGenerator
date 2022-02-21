@@ -21,6 +21,7 @@ let mutationContainer = document.getElementById('mutation-container');
 let buttonsSide = document.getElementById('buttons-side')
 let buttonsTop = document.getElementById('buttons-top')
 let info = document.getElementById('info');
+let alertLink = document.getElementById('alert-link')
 let conHeight, conWidth;
 let record = false;
 let originalGene;
