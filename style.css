@@ -143,6 +143,10 @@ button:active {
     box-shadow: none;
 }
 
+#col-container:focus {
+    background-color: red;
+}
+
 #mutation-container {
     background-color: #C8C8C8;
     display: none;

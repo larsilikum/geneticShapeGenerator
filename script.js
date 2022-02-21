@@ -1,15 +1,14 @@
-window.onload = function() {
+window.onload = function () {
     try {
         let url_string = (window.location.href).toLowerCase();
         let url = new URL(url_string);
         let geneCode = url.searchParams.get("gene");
-        if(geneCode) pSketch.useNewGene(geneCode.toUpperCase())
+        if (geneCode) pSketch.useNewGene(geneCode.toUpperCase())
 
     } catch (err) {
         console.log("Issues with Parsing URL Parameter's - " + err);
     }
 }
-
 
 
 let decodeGene = (c) => {
@@ -18,7 +17,7 @@ let decodeGene = (c) => {
     gene.gridAmountY = c.slice(2, 4);
 
     gene.noiseSeed = c.slice(4, 6);
-    gene.noiseSize =c.slice(6, 7);
+    gene.noiseSize = c.slice(6, 7);
     gene.noiseX = c.slice(7, 9);
     gene.noiseY = c.slice(9, 11);
 
@@ -34,7 +33,7 @@ let decodeGene = (c) => {
 }
 let encodeGene = (g) => {
     let c = ''
-    for(let key in g) {
+    for (let key in g) {
         c += g[key].toString()
     }
     pSketch.useNewGene(c)
@@ -44,18 +43,18 @@ let encodeGene = (g) => {
 let increase = (element, gene, key) => {
     let increaseGene = () => {
         let num;
-        if(gene[Object.keys(gene)[0]] === gene[key] || gene[Object.keys(gene)[1]] === gene[key]) {
-            num = nf((parseInt(gene[key])+1)%51, 2 )
-        } else if(gene[Object.keys(gene)[2]] === gene[key] || gene[Object.keys(gene)[4]] === gene[key] || gene[Object.keys(gene)[5]] === gene[key] || gene[Object.keys(gene)[10]] === gene[key]) {
+        if (gene[Object.keys(gene)[0]] === gene[key] || gene[Object.keys(gene)[1]] === gene[key]) {
+            num = nf((parseInt(gene[key]) + 1) % 51, 2)
+        } else if (gene[Object.keys(gene)[2]] === gene[key] || gene[Object.keys(gene)[4]] === gene[key] || gene[Object.keys(gene)[5]] === gene[key] || gene[Object.keys(gene)[10]] === gene[key]) {
             let n = parseInt(gene[key], 16)
-            num = hex((n+3)%256,2)
-        } else if(gene[Object.keys(gene)[3]] === gene[key] || gene[Object.keys(gene)[6]] === gene[key] || gene[Object.keys(gene)[9]] === gene[key]) {
-            let n = parseInt(gene[key],16)
-            num = hex((n+1)%16,1)
-        } else if(gene[Object.keys(gene)[7]] === gene[key]) {
-            num = (parseInt(gene[key])+1)%3;
-        } else if(gene[Object.keys(gene)[8]] === gene[key]) {
-            num = (parseInt(gene[key])+1)%5;
+            num = hex((n + 3) % 256, 2)
+        } else if (gene[Object.keys(gene)[3]] === gene[key] || gene[Object.keys(gene)[6]] === gene[key] || gene[Object.keys(gene)[9]] === gene[key]) {
+            let n = parseInt(gene[key], 16)
+            num = hex((n + 1) % 16, 1)
+        } else if (gene[Object.keys(gene)[7]] === gene[key]) {
+            num = (parseInt(gene[key]) + 1) % 3;
+        } else if (gene[Object.keys(gene)[8]] === gene[key]) {
+            num = (parseInt(gene[key]) + 1) % 5;
         }
         gene[key] = num
         encodeGene(gene)
@@ -66,18 +65,18 @@ let increase = (element, gene, key) => {
 let decrease = (element, gene, key) => {
     let decreaseGene = () => {
         let num;
-        if(gene[Object.keys(gene)[0]] === gene[key] || gene[Object.keys(gene)[1]] === gene[key]) {
-            num = nf(((parseInt(gene[key])+42)%51)+8, 2 )
-        } else if(gene[Object.keys(gene)[2]] === gene[key] || gene[Object.keys(gene)[4]] === gene[key] || gene[Object.keys(gene)[5]] === gene[key] || gene[Object.keys(gene)[10]] === gene[key]) {
+        if (gene[Object.keys(gene)[0]] === gene[key] || gene[Object.keys(gene)[1]] === gene[key]) {
+            num = nf(((parseInt(gene[key]) + 42) % 51) + 8, 2)
+        } else if (gene[Object.keys(gene)[2]] === gene[key] || gene[Object.keys(gene)[4]] === gene[key] || gene[Object.keys(gene)[5]] === gene[key] || gene[Object.keys(gene)[10]] === gene[key]) {
             let n = parseInt(gene[key], 16)
-            num = hex((n+253)%256,2)
-        } else if(gene[Object.keys(gene)[3]] === gene[key] || gene[Object.keys(gene)[6]] === gene[key] || gene[Object.keys(gene)[9]] === gene[key]) {
-            let n = parseInt(gene[key],16)
-            num = hex((n+15)%16,1)
-        } else if(gene[Object.keys(gene)[7]] === gene[key]) {
-            num = (parseInt(gene[key])+2)%3;
-        } else if(gene[Object.keys(gene)[8]] === gene[key]) {
-            num = (parseInt(gene[key])+4)%5;
+            num = hex((n + 253) % 256, 2)
+        } else if (gene[Object.keys(gene)[3]] === gene[key] || gene[Object.keys(gene)[6]] === gene[key] || gene[Object.keys(gene)[9]] === gene[key]) {
+            let n = parseInt(gene[key], 16)
+            num = hex((n + 15) % 16, 1)
+        } else if (gene[Object.keys(gene)[7]] === gene[key]) {
+            num = (parseInt(gene[key]) + 2) % 3;
+        } else if (gene[Object.keys(gene)[8]] === gene[key]) {
+            num = (parseInt(gene[key]) + 4) % 5;
         }
         gene[key] = num
         encodeGene(gene)
@@ -87,7 +86,7 @@ let decrease = (element, gene, key) => {
 
 let submitCol = (element, gene, key) => {
     let sub = () => {
-        if(event.keyCode === 13) {
+        if (event.keyCode === 13) {
             event.preventDefault()
             gene[key] = element.value
             encodeGene(gene)
@@ -103,10 +102,10 @@ let divideGene = () => {
     let gene = decodeGene(c)
 
 
-    for(let key in gene) {
-        if(key !== 'color') {
+    for (let key in gene) {
+        if (key !== 'color') {
             let clone = template.content.cloneNode(true)
-            let cloneDiv =clone.children[0]
+            let cloneDiv = clone.children[0]
             cloneDiv.children[1].innerText = key;
             cloneDiv.children[2].innerText = gene[key];
 
@@ -134,34 +133,36 @@ function createLink() {
     navigator.clipboard.writeText(url);
 }
 
-
 function hideOnClickOutside(element) {
     const outsideClickListener = event => {
-        if ((event.target.closest(element.id) === null && event.target.id !== element.id && event.target.tagName !== 'BUTTON') && element.classList.contains('active')) { // or use: event.target.closest(selector) === null
-            if(event.target.tagName==='INPUT') event.target.focus()
-            else {
-                element.classList.remove('active')
-                if (element.id === 'mutation-container') {
-                    for (let i = 0; i < mutationContainer.childNodes.length; i++) {
-                        pS[i].remove();
-                    }
-                    element.innerHTML = "";
-                } else if (element.id === 'info') {
-                    buttonsSide.classList.remove('inactive')
-                } else if (element.id === 'gene') {
-                    geneCode.classList.remove('lab-mode')
-                    geneCode.innerHTML = ''
-                    pSketch.gene.encode(true)
-                    geneCode.addEventListener('click', openGeneLab)
-                    buttonsTop.classList.remove('inactive')
+        if ((!element.contains(event.target) && event.target.id !== element.id && event.target.tagName !== 'BUTTON') && element.classList.contains('active')) {
+
+            element.classList.remove('active')
+            if (element.id === 'mutation-container') {
+                for (let i = 0; i < mutationContainer.childNodes.length; i++) {
+                    pS[i].remove();
                 }
+                element.innerHTML = "";
+            } else if (element.id === 'info') {
+                buttonsSide.classList.remove('inactive')
+            } else if (element.id === 'gene') {
+                geneCode.classList.remove('lab-mode')
+                geneCode.innerHTML = ''
+                pSketch.gene.encode(true)
+                geneCode.onclick = openGeneLab
+                buttonsTop.classList.remove('inactive')
             }
+
 
         }
     }
 
-    document.addEventListener('click', outsideClickListener)
+        document.addEventListener('click', outsideClickListener)
+
+
 }
+
+
 
 function openGeneLab() {
     buttonsTop.classList.add('inactive')
@@ -178,6 +179,7 @@ function openInfo() {
     info.classList.add('active')
     buttonsSide.classList.add('inactive')
 }
+
 mutationContainer.oncontextmenu = (e) => e.preventDefault()
 
 info.addEventListener('click', openInfo)
