@@ -46,12 +46,6 @@ class Gene {
         this.encode(false);
     }
 
-    changeColor(col) {
-        if (col.slice(0, 1) == "#") this.color = col.slice(1, 8);
-        else this.color = col.slice(0, 7);
-        this.encode(true);
-    }
-
     getColor() {
         return '#' + this.color;
     }
@@ -295,7 +289,8 @@ function sketch(p) {
 
     p.draw = () => {
         p.clear();
-
+        if(record) p.background(0,0);
+        else p.background(200);
 
         let scaleX = p.sWidth / (p.gene.noiseX * 2 + p.sWidth);
         let scaleY = p.sHeight / (p.gene.noiseY * 2 + p.sHeight);
@@ -309,8 +304,7 @@ function sketch(p) {
 
         p.translate(p.gene.noiseX, p.gene.noiseY);
 
-        if(p.bigView) p.background(200, 0);
-        else p.background(200);
+
 
         p.randomSeed(p.gene.shapeSeed);
 
@@ -320,8 +314,10 @@ function sketch(p) {
         if(record && p.bigView) {
             p.save(`${p.gene.code}.svg`);
             record = false;
+        } else {
+            p.noLoop();
         }
-        p.noLoop();
+
 
     }
 
@@ -638,6 +634,8 @@ function reloadSketch() {
 
     pSketch.width = conWidth;
     pSketch.height = conHeight;
+    pSketch.sHeight = conHeight;
+    pSketch.sWidth = conWidth;
     pSketch.grid = new Grid(pSketch.gene, conWidth, conHeight);
     pSketch.grid.generate(pSketch.gene, pSketch);
     pSketch.resizeCanvas(conWidth, conHeight);
