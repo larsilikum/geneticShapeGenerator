@@ -1,6 +1,12 @@
 @font-face {
     font-family: space_mono;
     src: url("assets/spaceMono-Regular.ttf");
+    font-weight: normal;
+}
+@font-face {
+    font-family: space_mono;
+    src: url("assets/SpaceMono-Bold.ttf");
+    font-weight: bold;
 }
 
 :root {
@@ -16,6 +22,12 @@ body {
 
     height: 100vh;
 
+}
+a {
+    color: black;
+}
+a:visited {
+    color: black;
 }
 
 main {
@@ -227,6 +239,7 @@ button:active {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    max-width: 100%;
     gap: 10px;
     grid-row: 2/4;
     grid-column: 2/3;
@@ -245,32 +258,49 @@ button:active {
 #info {
     width: 1.5em;
     height: 1.5em;
-    align-self: end;
+    align-self: flex-end;
     font-size: 29px;
     text-align: center;
     line-height: 1.5em;
     border: 1px solid black;
     border-radius: 100px;
+    padding: 0;
 }
 #info:hover {
     cursor: pointer;
 }
 
 #info.active {
-    width: 100%;
+    width: auto;
     height: 100%;
+    max-height: 82vh;
     cursor: default;
     border-radius: 4px;
     padding: 20px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
-#info > p {
+/* Hide scrollbar for Chrome, Safari and Opera */
+#info.active::-webkit-scrollbar {
+    display: none;
+}
+#info > p, #info h4 {
     display: none;
     text-align: left;
+
 }
 
 #info.active > p {
     display: block;
     font-size: 15px;
+    line-height: 1.4em;
+}
+
+#info.active h4 {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 @media screen and (min-width: 1280px) {
@@ -291,6 +321,12 @@ button:active {
         grid-column: 1/2;
         grid-row: 4/5;
     }
+    #info.active {
+        max-height: 100%;
+        height: 100%;
+        overflow-y: auto;
+    }
+
 }
 @media screen and (max-width: 900px) {
 
@@ -298,6 +334,7 @@ button:active {
         font-size: 40px;
         overflow-wrap: break-word;
         max-width: 93vw;
+        grid-column: 1/2;
     }
     button {
         font-size: 25px;
@@ -313,3 +350,4 @@ button:active {
         column-gap: 15px;
     }
 }
+
