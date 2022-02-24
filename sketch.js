@@ -26,30 +26,38 @@ let conHeight, conWidth;
 let record = false;
 let originalGene;
 
+
+//save shape as .svg
 function saveSVG() {
     record = true;
     pSketch.loop();
 }
 
+//calculate random value without influence of randomSeed()
 function realRandom(min, max) {
     return Math.random() * (max - min) + min
 }
 
+//generate either 1 or -1 randomly
 function randomNegPos() {
     return Math.round(Math.random()) * -2 + 1
 }
 
+//constrain a number between a maximum and a minimum
 function constrain(num, min, max) {
     return Math.min(Math.max(num, min), max)
 }
 
+//create a string of decimal numbers with variable digits
 function nf(input, digits) {
     return String("000" + input).slice(-digits);
 }
 
+//create a string of hexadecimal numbers with variable digits
 function hex(num, digits) {
     return ("000" + num.toString(16).toUpperCase()).slice(-digits);
 }
+
 
 class Gene {
 
@@ -58,16 +66,19 @@ class Gene {
         this.color = '000000';
     }
 
+    //function to set gene to the input string
     useGene(c) {
         this.code = c;
         this.decode();
         this.encode(false);
     }
 
+    //return color stored in gene
     getColor() {
         return '#' + this.color;
     }
 
+    //generate a random gene
     generateRandom() {
 
         this.gridAmountX = Math.round(realRandom(8, 50));
@@ -91,15 +102,19 @@ class Gene {
 
     }
 
+    //change the shapeSeed to generate a new shape with the same attributes
     newShape() {
         this.shapeSeed = Math.round(realRandom(0, 255));
         this.encode(true);
         this.decode();
     }
 
+    //mutate a gene, changing some values a little bit
     mutate() {
         for (let i = 0; i < 4; i++) {
             let mutation = Math.floor(realRandom(0, 10));
+
+            //doesnt mutate noise gene as it is not visible when noise size equals 0
             if(this.noiseSize === 0) {
                 while(mutation === 2 || mutation === 4 || mutation === 5) {
                     mutation = Math.floor(realRandom(0, 10));
@@ -154,6 +169,7 @@ class Gene {
         this.encode(false);
     }
 
+    //decodes the gene code and assigns its values to the corresponding params
     decode() {
         this.gridAmountX = constrain(parseInt(this.code.slice(0, 2)), 8, 50);
         this.gridAmountY = constrain(parseInt(this.code.slice(2, 4)), 8, 50);
@@ -175,6 +191,7 @@ class Gene {
         geneCode.innerText = this.code;
     }
 
+    //encodes the params into a string and sets gene code to the new gene code
     encode(changeView) {
         let gridX = nf(this.gridAmountX, 2);
         let gridY = nf(this.gridAmountY, 2);
@@ -193,6 +210,8 @@ class Gene {
         let shapeSeed = hex(this.shapeSeed, 2);
 
         this.code = gridX + gridY + noiseSeed + noiseSize + nX + nY + integration + sVGM + roundM + roundness + shapeSeed + this.color;
+
+        //changes the displayed gene code
         if (changeView) geneCode.innerText = this.code;
     }
 }
@@ -244,7 +263,7 @@ class Grid {
 
 let drawGridB = true;
 
-
+//toggles if grid is drawn
 function toggleGrid() {
     drawGridB = !drawGridB;
     pSketch.loop();
@@ -258,11 +277,9 @@ function toggleGrid() {
 function sketch(p) {
 
     let width, height;
-    let storeGene;
     p.gene = new Gene();
 
-    p.grid;
-
+    //function to generate random gene and draw it
     p.randomGene = function () {
 
         p.gene.generateRandom();
@@ -272,6 +289,7 @@ function sketch(p) {
 
     }
 
+    //function that calls gene.newShape() and draws it
     p.newShape = function () {
         p.gene.newShape();
         p.grid = new Grid(p.gene, p.sWidth, p.sHeight);
@@ -279,6 +297,7 @@ function sketch(p) {
         p.loop();
     }
 
+    //function that uses the input gene and draws corresponding shape
     p.useNewGene = function (c) {
         p.gene.useGene(c);
         p.grid = new Grid(p.gene, p.sWidth, p.sHeight);
@@ -307,12 +326,17 @@ function sketch(p) {
 
     p.draw = () => {
         p.clear();
+
+        //make background transparent so it doesn't appear in downloaded svg
         if(record) p.background(0,0);
+
         else p.background(200);
 
+        //calculate the scale of the grid so everything is visible inside the canvas
         let scaleX = p.sWidth / (p.gene.noiseX * 2 + p.sWidth);
         let scaleY = p.sHeight / (p.gene.noiseY * 2 + p.sHeight);
 
+        //scaling for small previews of mutations
         if (!p.bigView) {
             scaleX = p.sWidth * p.ratioP / (p.gene.noiseX * 2 + p.sWidth);
             scaleY = p.sHeight * p.ratioP / (p.gene.noiseY * 2 + p.sHeight);
@@ -320,19 +344,21 @@ function sketch(p) {
 
         p.scale(scaleX, scaleY);
 
+        //translate the grid so everything is visible
         p.translate(p.gene.noiseX, p.gene.noiseY);
-
-
 
         p.randomSeed(p.gene.shapeSeed);
 
         if (drawGridB) p.drawGrid();
 
         p.drawShape();
+
+        //when download svg is clicked save svg then loop once more so the background is drawn again
         if(record && p.bigView) {
             p.save(`${p.gene.code}.svg`);
             record = false;
         } else {
+            //if nothing changes stop drawing
             p.noLoop();
         }
 
@@ -343,6 +369,8 @@ function sketch(p) {
 
 
     p.drawGrid = function () {
+
+        //draw horizontal lines
         for (let i = 0; i < p.gene.gridAmountX; i++) {
             p.stroke(0);
             p.noFill();
@@ -355,6 +383,7 @@ function sketch(p) {
             p.endShape();
         }
 
+        //draw vertical lines
         for (let i = 0; i < p.gene.gridAmountY; i++) {
             p.stroke(0);
             p.noFill();
@@ -376,7 +405,7 @@ function sketch(p) {
         p.fill(p.gene.getColor());
         p.noStroke();
 
-        //shape generation
+        //change shape generation based on gene
         switch (p.gene.shapeVectorGenerationMode) {
             case 0:
                 p.calculateGaussian(vec, points);
@@ -410,7 +439,9 @@ function sketch(p) {
                 } else {
                     pBefore = [points.length - 1];
                 }
+                //calculate if vertex should be a bezierVertex based on gene roundness
                 let r = (p.random(0, 1) < p.gene.roundness);
+
                 if (r && i !== 0) p.bezierVertex(pBefore.x, pBefore.y, point.x, point.y, pAfter.x, pAfter.y);
                 else p.vertex(point.x, point.y);
             }
@@ -427,12 +458,14 @@ function sketch(p) {
                 } else {
                     pAfter = points[0];
                 }
-                if (i != 0) {
+                if (i !== 0) {
                     pBefore = points[i - 1];
                 } else {
                     pBefore = points[points.length - 1];
                 }
+                //calculate if vertex should be a bezierVertex based on gene roundness
                 let r = (p.random(0, 1) < p.gene.roundness);
+
                 if (r && i !== 0) {
                     p.bezierVertex(pBefore.x, pBefore.y, point.x, point.y, pAfter.x, pAfter.y);
                     p.vertex(pAfter.x, pAfter.y);
@@ -454,8 +487,10 @@ function sketch(p) {
                 } else {
                     pBefore = points[points.length - 1];
                 }
+                //calculate if vertex should be a bezierVertex based on gene roundness
                 let r = (p.random(0, 1) < p.gene.roundness);
-                if (r && i != 0) p.bezierVertex(pBefore.x, pBefore.y, pRand.x, pRand.y, point.x, point.y);
+
+                if (r && i !== 0) p.bezierVertex(pBefore.x, pBefore.y, pRand.x, pRand.y, point.x, point.y);
                 else p.vertex(point.x, point.y);
             }
             p.endShape();
@@ -467,25 +502,28 @@ function sketch(p) {
                 let point = points[i];
                 let pBefore;
 
-                if (i != 0) {
+                if (i !== 0) {
                     pBefore = points[i - 1];
                 } else {
                     pBefore = points[points.length - 1];
                 }
                 let pRand = p.createVector(point.x + p.random(-point.x / 4, p.sWidth / 4 - point.x / 4), point.y + (p.int(p.random(-1, 1)) * pBefore.y / 4));
+
+                //calculate if vertex should be a bezierVertex based on gene roundness
                 let r = (p.random(0, 1) < p.gene.roundness);
-                if (r && i != 0) p.bezierVertex(pBefore.x, pBefore.y, point.x, point.y, pRand.x, pRand.y);
+
+                if (r && i !== 0) p.bezierVertex(pBefore.x, pBefore.y, point.x, point.y, pRand.x, pRand.y);
                 else p.vertex(point.x, point.y);
             }
             p.endShape();
-        } else if (p.gene.roundMode == 4) {
+        } else if (p.gene.roundMode === 4) {
             p.beginShape();
             for (let i = 0; i < points.length; i += 3) {
 
                 let point = points[i];
                 let pBefore;
                 let pAfter;
-                if (i != points.length - 1) {
+                if (i !== points.length - 1) {
                     pAfter = points[i + 1];
                 } else {
                     pAfter = points[0];
@@ -496,8 +534,9 @@ function sketch(p) {
                 } else {
                     pBefore = points[points.length - 1];
                 }
-
+                //calculate if vertex should be a curveVertex based on gene roundness
                 let r = (p.random(0, 1) < p.gene.roundness);
+
                 if (r && i != 0) {
                     p.curveVertex(pBefore.x, pBefore.y);
                     p.curveVertex(point.x, point.y);
@@ -518,6 +557,7 @@ function sketch(p) {
         }
     }
 
+    //calculate points of shape by gaussian
     p.calculateGaussian = function (vec, points) {
         for (let x = 0; x < p.gene.gridAmountX; x++) {
             vec[x] = [];
@@ -535,7 +575,7 @@ function sketch(p) {
             vec[x][y] = y;
         }
 
-
+        //only use points with highest and lowest y value
         for (let x = 0; x < p.gene.gridAmountX; x++) {
             let yP = p.max(vec[x]);
             if (yP >= 0) {
@@ -559,6 +599,7 @@ function sketch(p) {
 
     }
 
+    //calculate points based on perlin noise
     p.calculateNoise = function (vec, points) {
         for (let x = 0; x < p.gene.gridAmountX; x++) {
             vec[x] = [];
@@ -577,7 +618,7 @@ function sketch(p) {
             vec[x][y] = y;
         }
 
-
+        //only use highest and lowest value of y
         for (let x = 0; x < p.gene.gridAmountX; x++) {
             let y = p.max(vec[x]);
             if (y >= 0) {
