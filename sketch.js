@@ -643,9 +643,11 @@ function sketch(p) {
 
     p.calculateRandom = function (points) {
 
+
         let lastX = p.int(p.random(0, p.gene.gridAmountX / 2));
-        let lastY = p.int(p.random(0, p.gene.gridAmountY));
+        let lastY = p.int(p.random(0, p.gene.gridAmountY / 2));
         points.unshift(p.grid.vec[lastX][lastY]);
+
         for (let i = 0; i < p.gene.gridAmountX / 2; i++) {
             let x = p.constrain(lastX + p.round(p.random(-0.6, 1)), 0, p.int(p.gene.gridAmountX / 2));
             let y = p.constrain(lastY + p.round(p.random(-1, 0.6)), 0, p.int(p.gene.gridAmountY / 2));
@@ -653,6 +655,7 @@ function sketch(p) {
             lastX = x;
             lastY = y;
         }
+
         for (let i = 0; i < p.gene.gridAmountX / 2; i++) {
             let x = p.constrain(lastX + p.round(p.random(-0.6, 1)), p.int(p.gene.gridAmountX / 2), p.gene.gridAmountX - 1);
             let y = p.constrain(lastY + p.round(p.random(-0.6, 1)), 0, p.int(p.gene.gridAmountY / 2));
