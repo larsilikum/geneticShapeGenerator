@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>genetic shape generator</title>
+    <meta name="description" content="a tool to generate many different shapes based on a gene. svg download">
+    <meta name="author" content="lars hembacher">
+    <script src="https://www.unpkg.com/p5@1.4.1/lib/p5.min.js"></script>
+    <script src="https://unpkg.com/p5.js-svg@1.3.1"></script>
+    <script src="sketch.js" defer></script>
+    <script src="script.js" defer></script>
+    <link href="normalize.css" rel="stylesheet" type="text/css">
+    <link href="style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<main>
+    <div id="gene" onclick="openGeneLab()"></div>
+    <div id="buttons-top">
+        <button onclick="mutations()" id="mutate">mutate</button>
+        <button onclick="pSketch.randomGene()" id="random">random</button>
+        <button onclick="pSketch.newShape()" id="new-shape">new shape</button>
+        <button onclick="toggleGrid()" id="grid-button">hide grid</button>
+    </div>
+    <div id="buttons-side">
+
+        <button onclick="createLink()" id="create-link">create link</button>
+        <button onclick="saveSVG()" id="download">download svg</button>
+        <div id="info">
+            i
+            <br>
+            <h4>genetic shape generator</h4>
+            <p>
+                this webapp can be used to generate shapes based on a gene. different slices of the gene
+                influence certain ways the shapes are drawn. (e.g. the first to digits determine the amount
+                of grid columns)
+                <br>
+                <br>
+                there are different ways to generate shapes.
+                <br>
+                one is to draw new shapes with <strong>random</strong> genes / parameters.
+                <br>
+                <strong>mutating</strong> the shape offers similar shapes with closely related genes.
+                <br>
+                if you are content with the
+                characteristics of the shape, you can create similar shapes by pressing the "<strong>new shape</strong>" button.
+                <br>
+                at last there is the possibility of manually editing the gene in the <strong>gene lab</strong>, which can be accessed
+                by clicking the gene itself. there you can also change the <strong>color</strong> represented in hexadecimal in the
+                last six digits. this parameter will always stay the same, if you are looking to find shapes in a
+                certain color.
+                <br>
+                <br>
+
+            </p>
+            <h4>license</h4>
+            <p>
+                the genetic shape generator is free software build with <a href="https://p5js.org" target="_blank">p5.js</a>.
+                It is free to modify or redistribute it under the terms of the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">
+                GNU GPL v3.0</a>. you can access the code <a href="https://github.com/larsilikum/geneticShapeGenerator/tree/master" target="_blank">here</a>.
+                <br>
+                <br>
+                genetic shape generator
+                <br>
+                Copyright (C) 2022 <a href="https://larshembacher.de/contact" target="_blank">lars hembacher</a>
+            </p>
+
+        </div>
+    </div>
+
+    <div id="mutation-container"></div>
+    <div id="container"></div>
+    <div id="alert-link">copied link to clipboard</div>
+</main>
+<template>
+    <div class="gene-code-container">
+        <button class="up"></button>
+        <p class="description-gene"></p>
+        <p class="gene-code"></p>
+        <button class="down"></button>
+    </div>
+
+</template>
+<template>
+    <div class="gene-code-container" id="col-container">
+        <p class="description-gene"></p>
+        <input id="color" class="gene-code" type="text" name="color" maxlength="6">
+    </div>
+
+</template>
+</body>
+</html>

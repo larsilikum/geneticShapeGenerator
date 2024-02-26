@@ -1,0 +1,369 @@
+@font-face {
+    font-family: space_mono;
+    src: url("assets/spaceMono-Regular.ttf");
+    font-weight: normal;
+}
+@font-face {
+    font-family: space_mono;
+    src: url("assets/SpaceMono-Bold.ttf");
+    font-weight: bold;
+}
+
+:root {
+    font-family: space_mono,monospace;
+    font-size: 15px;
+
+}
+
+body {
+    padding: 0 15px;
+    background-color: #C8C8C8;
+    /*overflow-y: hidden;*/
+
+    height: 100vh;
+
+}
+a {
+    color: black;
+}
+a:visited {
+    color: black;
+}
+
+main {
+
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto auto 82vh;
+    grid-template-columns: 75vw 1fr;
+}
+
+#alert-link {
+    position: fixed;
+    left:0;
+    bottom: 0;
+    font-size: 20px;
+    width: 100vw;
+    padding:0.2em 0 0.2em 1em;
+    background-color: white;
+    border-top: 1px solid black;
+    display: none;
+}
+
+#alert-link.active {
+    display: block;
+}
+
+#gene {
+    font-weight: 500;
+    font-size: 58px;
+
+    margin-top: 5px;
+    margin-bottom: 10px;
+
+    grid-row: 1/2;
+    grid-column: 1/4;
+}
+#gene:hover {
+    text-decoration: underline;
+    text-decoration-thickness: .06em;
+    cursor: pointer;
+}
+
+#gene.lab-mode {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    z-index: 20;
+    margin: 0;
+    background-color: #C8C8C8;
+}
+
+#gene.lab-mode:hover{
+    text-decoration: none;
+    cursor: default;
+}
+
+.gene-code-container {
+    display: grid;
+    grid-template-columns: 2rem auto;
+    grid-template-rows: 35px 1.5em 35px;
+    float: right;
+    height: 18vh;
+}
+
+.gene-code-container > button,  .gene-code-container > button:hover{
+    border: none;
+    box-shadow: none;
+    width: 4rem;
+    height: 4rem;
+    background-image: url("assets/button.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    justify-self: center;
+}
+
+
+.up {
+
+    background-position: 0 0;
+    grid-column: 2/3;
+    grid-row: 1/2;
+}
+
+.down {
+    background-position: 100% 0;
+    grid-column: 2/3;
+    grid-row: 3/4;
+}
+
+.description-gene {
+    text-align: right;
+    margin:0 0 1rem 0;
+    height: 1em;
+    width: calc(18vh - 70px);
+
+    transform-origin: 1em 1em;
+    transform: rotate(-90deg);
+    grid-row: 1/4;
+    grid-column: 1/2;
+    font-size: 15px;
+    align-self: flex-end;
+
+
+}
+
+.gene-code {
+    grid-row: 2/3;
+    grid-column: 2/3;
+    margin: 0;
+    align-self: center;
+}
+
+#color {
+    width: 4em;
+    height: 1.3em;
+    align-self: center;
+    background-color: #C8C8C8;
+    border: 1px solid transparent;
+}
+
+#color:hover, #color:focus {
+    border: 1px solid black !important;
+    border-radius: 4px;
+}
+
+
+button {
+    background-color: inherit;
+    border: black 1px solid;
+    border-radius: 4px;
+
+    font-size: 29px;
+    height: 1.5em;
+
+    padding: 1px 10px 3px 10px;
+
+    cursor: pointer;
+
+    transition-duration: 70ms;
+
+}
+
+button:hover{
+    box-shadow: 3px 5px rgba(0,0,0,20);
+}
+
+button:active {
+    box-shadow: none;
+}
+
+#col-container:focus {
+    background-color: red;
+}
+
+#mutation-container {
+    background-color: #C8C8C8;
+    display: none;
+    grid-column: 1/3;
+    grid-row: 2/4;
+    height: 20vh;
+    width: 100%;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+#mutation-container::-webkit-scrollbar {
+    display: none;
+}
+
+
+#mutation-container.active {
+    display: flex;
+    flex-direction: row;
+
+    position: relative;
+}
+
+.mutations {
+    border: 1px solid transparent;
+    border-top: none;
+}
+
+.mutations:hover {
+    border: 1px solid black;
+    border-top: none;
+    cursor: pointer;
+
+}
+
+
+#container {
+    height: 80%;
+    width: 90%;
+
+    margin-top: 7%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+
+    grid-row: 3/4;
+    grid-column: 1/2;
+
+}
+
+
+#buttons-top {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    grid-row: 2/3;
+    grid-column: 1/2;
+}
+
+#buttons-top.inactive{
+    display: none;
+}
+
+#buttons-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    max-width: 100%;
+    gap: 10px;
+    grid-row: 2/4;
+    grid-column: 2/3;
+    padding-bottom: 15px;
+}
+
+#buttons-side.inactive > button{
+    display: none;
+}
+
+#buttons-side > button {
+    width: 8.5em;
+    text-align: left;
+}
+
+#info {
+    width: 1.5em;
+    height: 1.5em;
+    align-self: flex-end;
+    font-size: 29px;
+    text-align: center;
+    line-height: 1.5em;
+    border: 1px solid black;
+    border-radius: 100px;
+    padding: 0;
+}
+#info:hover {
+    cursor: pointer;
+}
+
+#info.active {
+    width: auto;
+    height: 100%;
+    max-height: 82vh;
+    cursor: default;
+    border-radius: 4px;
+    padding: 20px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+#info.active::-webkit-scrollbar {
+    display: none;
+}
+#info > p, #info h4 {
+    display: none;
+    text-align: left;
+
+}
+
+#info.active > p {
+    display: block;
+    font-size: 15px;
+    line-height: 1.4em;
+}
+
+#info.active h4 {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+@media screen and (min-width: 1280px) {
+    #gene {
+        font-size: 70px;
+    }
+    button {
+        font-size: 33px;
+        padding: 2px 15px 4px 15px;
+    }
+}
+@media screen and (max-width: 1050px) {
+    main{
+        grid-template-columns: 100%;
+        grid-template-rows: auto auto 70vh auto auto;
+    }
+    #buttons-side {
+        grid-column: 1/2;
+        grid-row: 4/5;
+    }
+    #info.active {
+        max-height: 100%;
+        height: 100%;
+        overflow-y: auto;
+    }
+
+}
+@media screen and (max-width: 900px) {
+
+    #gene {
+        font-size: 40px;
+        overflow-wrap: break-word;
+        max-width: 93vw;
+        grid-column: 1/2;
+    }
+    button {
+        font-size: 25px;
+    }
+    .description-gene {
+        font-size: 11px;
+        margin-bottom: 0;
+    }
+    .gene-code-container button {
+        padding: 0;
+    }
+    .lab-mode {
+        column-gap: 15px;
+    }
+}
+
